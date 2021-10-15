@@ -1,5 +1,6 @@
 package client;
 
+import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 import org.json.simple.JSONObject;
@@ -8,17 +9,32 @@ import com.message.proto.QueryRequest;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.NameResolver;
+
+import  com.message.resolver.MultiAddressNameResolverFactory;
 
 public class ClientChannel {
 	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		ClientChannel c = new ClientChannel();
-		c.makeBlockingRequest();
+		NameResolver.Factory nameResolverFactory = new MultiAddressNameResolverFactory(
+	            new InetSocketAddress("localhost", 8080),
+	            new InetSocketAddress("localhost", 8081),
+	            new InetSocketAddress("localhost", 8082)
+	    );
+
+	    ManagedChannel channel = ManagedChannelBuilder.forTarget("service")
+	            .nameResolverFactory(nameResolverFactory)
+	            .defaultLoadBalancingPolicy("round_robin")
+	            .usePlaintext()
+	            .build();
+		c.makeBlockingRequest(channel);
 		
 	}
 	
-	private void makeBlockingRequest() {
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext().build();
+	@SuppressWarnings("unchecked")
+	private void makeBlockingRequest(ManagedChannel channel) {
 		System.out.println("Connected to server");
 		
 		Scanner sc = new Scanner(System.in);
@@ -40,6 +56,7 @@ public class ClientChannel {
 		
 		String message = blockingStub.sendQuery(QueryRequest.newBuilder().setQuery(query).build()).getMessage();
 		System.out.println("\n\nServer sent:"+message);
+		sc.close();
 	}
 
 }

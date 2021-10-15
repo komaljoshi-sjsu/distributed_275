@@ -16,8 +16,12 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 public class ServerChannel {
+	int serverNum;
 	
-	
+	public ServerChannel(int p) {
+		serverNum = p;
+	}
+
 	public JSONArray  searchCsv(JSONObject spatial) {
 		System.out.println("Request: "+spatial);
 		JSONArray result = new JSONArray();
@@ -68,12 +72,28 @@ public class ServerChannel {
 		return result;
 	}
 
-	public static void main(String[] args) throws IOException, InterruptedException {
-		ServerChannel s = new ServerChannel();
-		Server server = ServerBuilder.forPort(8080).addService(new QueryProcessor(s)).build();
-		System.out.println("Server is listening at 8080");
-		server.start();
-		server.awaitTermination();
+	public static void main(String[] args) {
+		
+		for(int i=0;i<=2;i++) {
+			final int p = i;
+			int port = 8080+p;
+			ServerChannel s = new ServerChannel(p);
+			Server server = ServerBuilder.forPort(port).addService(new QueryProcessor(s,p)).build();
+			Thread thread = new Thread() {
+				public void run() {
+					try {
+						server.start();
+						System.out.println("Server "+p+" listening on port "+server.getPort());
+						server.awaitTermination();
+					} catch(InterruptedException | IOException ie) {
+						ie.printStackTrace();
+					}
+				}
+			};
+			thread.start();
+			
+		}
+		
 	}
 
 }

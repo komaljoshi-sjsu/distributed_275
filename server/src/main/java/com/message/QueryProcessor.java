@@ -16,13 +16,16 @@ import server.ServerChannel;
 public class QueryProcessor extends QueryProcessorImplBase {
 	
 	ServerChannel server;
-	public QueryProcessor(ServerChannel server) {
+	int serverNum;
+	public QueryProcessor(ServerChannel server, int serverNum) {
 		this.server = server;
+		this.serverNum = serverNum;
 	}
 	
 	@Override
 	public void sendQuery(QueryRequest request, StreamObserver<QueryReply> responseObserver) {
 		QueryReply reply = null;
+		System.out.println("Server "+serverNum+" is processing the request...");
 		try {
 			String reqString = request.getQuery();
 			JSONParser parser = new JSONParser(); 
