@@ -1,6 +1,7 @@
 package client;
 
 import java.net.InetSocketAddress;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.json.simple.JSONObject;
@@ -37,26 +38,37 @@ public class ClientChannel {
 	private void makeBlockingRequest(ManagedChannel channel) {
 		System.out.println("Connected to server");
 		
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter lower bound of latitude:");
-		double lat = sc.nextDouble();
-		System.out.println("Enter lower bound of longitude:");
-		double lon = sc.nextDouble();
-		System.out.println("Enter lower bound of elevation:");
-		double ele = sc.nextDouble();
-		JSONObject spatial = new JSONObject();
-		spatial.put("lat", lat);
-		spatial.put("lon", lon);
-		spatial.put("elevation", ele);
+		//Scanner sc = new Scanner(System.in);
+		//System.out.println("Enter lower bound of latitude:");
 		
-		String query = spatial.toJSONString();
 		
 		QueryProcessorGrpc.QueryProcessorBlockingStub blockingStub = QueryProcessorGrpc.newBlockingStub(channel);
-		System.out.println("Sending Request to server.....");
 		
-		String message = blockingStub.sendQuery(QueryRequest.newBuilder().setQuery(query).build()).getMessage();
-		System.out.println("\n\nServer sent:"+message);
-		sc.close();
+		for(int i = 1;i<=5;i++) {
+			System.out.println("Client "+i+" Sending Request to server.....");
+			Random rand = new Random(); //instance of random class
+	        int upperbound = 100;
+	        int intNum = rand.nextInt(upperbound);
+			double lat = rand.nextDouble()*intNum;
+			//System.out.println("Enter lower bound of longitude:");
+			intNum = rand.nextInt(upperbound);
+			double lon = rand.nextDouble()*intNum;
+			//
+			//System.out.println("Enter lower bound of elevation:");
+			intNum = rand.nextInt(upperbound);
+			double ele = rand.nextDouble()*intNum;
+			
+			JSONObject spatial = new JSONObject();
+			spatial.put("lat", lat);
+			spatial.put("lon", lon);
+			spatial.put("elevation", ele);
+			
+			String query = spatial.toJSONString();
+			String message = blockingStub.sendQuery(QueryRequest.newBuilder().setQuery(query).build()).getMessage();
+			System.out.println("\n\nServer sent to request  "+i+":"+message);
+		}
+		
+		//sc.close();
 	}
 
 }
