@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.message.proto";
+option java_outer_classname = "FileProto";
+option objc_class_prefix = "HLW";
+
+package com.message.proto;
+
+// The file processing service definition.
+service FileProcessor {
+  // Sends a file
+  rpc upload (FileRequest) returns (FileReply) {}
+}
+
+// The request message containing the file with csv data.
+message FileRequest {
+  bytes file = 1;
+}
+
+// The response message containing the status of upload
+message FileReply {
+  string status = 1;
+}

@@ -33,11 +33,12 @@ public class QueryProcessor extends QueryProcessorImplBase {
 
 			JSONArray response = server.searchCsv(req);
 			reply = QueryReply.newBuilder().setMessage(response.toJSONString()).build();
+			responseObserver.onNext(reply);
+			responseObserver.onCompleted();
 		} catch(ParseException pe) {
 			reply = QueryReply.newBuilder().setMessage("Failed to parse query sent by client").build();
+			responseObserver.onError(pe);
 		}
-		responseObserver.onNext(reply);
-		responseObserver.onCompleted();
 	}
 
 }

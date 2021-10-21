@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.message.proto";
+option java_outer_classname = "QueryProto";
+option objc_class_prefix = "HLW";
+
+package com.message.proto;
+
+// The query processing service definition.
+service QueryProcessor {
+  // Sends a query
+  rpc sendQuery (QueryRequest) returns (QueryReply) {}
+}
+
+// The request message containing the user's name.
+message QueryRequest {
+  string query = 1;
+}
+
+// The response message containing the greetings
+message QueryReply {
+  string message = 1;
+}
