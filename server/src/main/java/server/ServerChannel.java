@@ -34,6 +34,7 @@ public class ServerChannel {
 			int lonIndex = -1;
 			int eleIndex = -1;
 			int temperature = -1;
+			int cIndex = -1;
 			for(int i = 0;i<header.length;i++) {
 				if("lat".equals(header[i])) {
 					latIndex = i;
@@ -43,6 +44,8 @@ public class ServerChannel {
 					eleIndex = i;
 				} else if("temperature".equals(header[i])) {
 					temperature = i;
+				} else if("country".equals(header[i])) {
+					cIndex = i;
 				}
 			}
 			System.out.println();
@@ -50,14 +53,16 @@ public class ServerChannel {
 				double lat = Double.parseDouble(spatial.get("lat").toString());
 				double lon = Double.parseDouble(spatial.get("lon").toString());
 				double elevation = Double.parseDouble(spatial.get("elevation").toString());
+				String cnt = spatial.get("country").toString();
 				
 				String values[] = sc.nextLine().split(",");
 				
 				Double csvLat = Double.parseDouble(values[latIndex]);
 				Double csvLon = Double.parseDouble(values[lonIndex]);
 				Double csvEle = Double.parseDouble(values[eleIndex]);
+				String csvCnt = values[cIndex].toString();
 				
-				if(csvLat>lat && csvLon>lon && csvEle> elevation) {
+				if(csvLat>lat  && csvCnt.equals(cnt)) {
 					JSONObject res = new JSONObject();
 					res.put("location", values[1]);
 					res.put("temperature", values[temperature]);
@@ -76,7 +81,7 @@ public class ServerChannel {
 		
 		for(int i=0;i<1;i++) {
 			final int p = i;
-			int port = 8080+p;
+			int port = 9090+p;
 			ServerChannel s = new ServerChannel(p);
 			Server server = ServerBuilder.forPort(port).addService(new QueryProcessor(s,p)).build();
 			Thread thread = new Thread() {

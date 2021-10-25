@@ -238,6 +238,8 @@ public class MesonetReader {
 
 				record.setStationID(stationId[r]);
 				record.setStationName(stationName[r].replace(',', '@'));
+				String[] address = stationName[r].split("\\s+");
+				String country = address!=null && address.length>0?address[address.length-1]:"";
 				record.setStationType(stationType[r]); // not sure if this is
 														// the correct field
 				record.setDataProvider(dataProvider[r]);
@@ -253,6 +255,7 @@ public class MesonetReader {
 				record.setLongitude(lon[r]);
 				record.setTimeObs(obstime[r]);
 				record.setTemperature((double)temp[r]);
+				record.setCountry(country);
 
 				if (elev[r] != MesonetData.missingValue && elev[r] != MesonetData.fillValue)
 					record.setElevation((double) elev[r]);
@@ -430,6 +433,8 @@ public class MesonetReader {
 				Station stat = new Station();
 
 				stat.setName(stationName[r].replace(',', '@'));
+				String[] address = stationName[r].split("\\s+");
+				String country = address!=null && address.length>0?address[address.length-1]:"";
 				stat.setActive(true);
 				stat.setSource("madis-mesonet");
 				stat.setMesonet(originatingMeso[r]);
@@ -439,6 +444,7 @@ public class MesonetReader {
 				stat.setLon(lon[r]);
 				stat.setTemperature((double)temperature[r]);
 				stat.setTimeObs(obstime[r]);
+				stat.setCountry(country);
 
 				if (elev[r] != MesonetData.missingValue && elev[r] != MesonetData.fillValue)
 					stat.setElevation(elev[r]); // meter
