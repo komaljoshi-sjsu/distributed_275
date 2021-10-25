@@ -1,11 +1,13 @@
 package server;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.message.QueryProcessor;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.netty.shaded.io.netty.util.concurrent.DefaultThreadFactory;
 
 public class ServerChannel {
 	int serverNum;
@@ -18,6 +20,8 @@ public class ServerChannel {
 	
 
 	public static void main(String[] args) {
+		
+		//init cache
 		LRUCache cache = new LRUCache(10000,0);
 		 try {
              startServer("user", 9090);
