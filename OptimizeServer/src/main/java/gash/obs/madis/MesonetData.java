@@ -218,6 +218,16 @@ public class MesonetData {
 
 	/** units: centimeters, desc: Total column precipitable water vapor (PWV) */
 	private Double totalColumnPWV;
+	
+	private String country;
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
 	/**
 	 * return obs time (sec) as a Date object

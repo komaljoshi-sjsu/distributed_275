@@ -74,7 +74,7 @@ public class ServerChannel {
 
 	public static void main(String[] args) {
 		
-		for(int i=0;i<=2;i++) {
+		for(int i=0;i<1;i++) {
 			final int p = i;
 			int port = 8080+p;
 			ServerChannel s = new ServerChannel(p);

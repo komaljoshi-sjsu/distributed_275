@@ -20,6 +20,7 @@ public class SearchCSV {
 			int lonIndex = -1;
 			int eleIndex = -1;
 			int temperature = -1;
+			int cIndex = -1;
 			for(int i = 0;i<header.length;i++) {
 				if("lat".equals(header[i])) {
 					latIndex = i;
@@ -29,6 +30,8 @@ public class SearchCSV {
 					eleIndex = i;
 				} else if("temperature".equals(header[i])) {
 					temperature = i;
+				} else if("country".equals(header[i])) {
+					cIndex = i;
 				}
 			}
 			System.out.println();
@@ -36,14 +39,16 @@ public class SearchCSV {
 				double lat = Double.parseDouble(spatial.get("lat").toString());
 				double lon = Double.parseDouble(spatial.get("lon").toString());
 				double elevation = Double.parseDouble(spatial.get("elevation").toString());
+				String cnt = spatial.get("country").toString();
 				
 				String values[] = sc.nextLine().split(",");
 				
 				Double csvLat = Double.parseDouble(values[latIndex]);
 				Double csvLon = Double.parseDouble(values[lonIndex]);
 				Double csvEle = Double.parseDouble(values[eleIndex]);
+				String csvCnt = values[cIndex].toString();
 				
-				if(csvLat>lat && csvLon>lon && csvEle> elevation) {
+				if(csvLat>lat && csvLon>lon && csvEle> elevation && csvCnt.equals(cnt)) {
 					JSONObject res = new JSONObject();
 					res.put("location", values[1]);
 					res.put("temperature", values[temperature]);

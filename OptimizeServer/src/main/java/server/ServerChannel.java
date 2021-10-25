@@ -1,5 +1,4 @@
 package server;
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -75,7 +74,7 @@ public class ServerChannel {
 	         * Use a Direct Executor by default (best performance) since the GRPC
 	         * service in this code is guaranteed non-blocking
 	         */
-	        var value = System.getenv().getOrDefault("JVM_EXECUTOR_TYPE", "single");
+	        var value = System.getenv().getOrDefault("JVM_EXECUTOR_TYPE", "direct");
 	        switch (value) {
 	          case "direct": sb = sb.directExecutor();
 	          case "single": sb = sb.executor(Executors.newSingleThreadExecutor());
