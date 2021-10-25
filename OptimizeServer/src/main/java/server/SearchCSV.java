@@ -37,18 +37,18 @@ public class SearchCSV {
 			System.out.println();
 			while (sc.hasNext()) { //returns a boolean value  
 				double lat = Double.parseDouble(spatial.get("lat").toString());
-				double lon = Double.parseDouble(spatial.get("lon").toString());
-				double elevation = Double.parseDouble(spatial.get("elevation").toString());
+//				double lon = Double.parseDouble(spatial.get("lon").toString());
+//				double elevation = Double.parseDouble(spatial.get("elevation").toString());
 				String cnt = spatial.get("country").toString();
 				
 				String values[] = sc.nextLine().split(",");
 				
 				Double csvLat = Double.parseDouble(values[latIndex]);
-				Double csvLon = Double.parseDouble(values[lonIndex]);
-				Double csvEle = Double.parseDouble(values[eleIndex]);
+//				Double csvLon = Double.parseDouble(values[lonIndex]);
+//				Double csvEle = Double.parseDouble(values[eleIndex]);
 				String csvCnt = values[cIndex].toString();
 				
-				if(csvLat>lat && csvLon>lon && csvEle> elevation && csvCnt.equals(cnt)) {
+				if(csvLat>lat && csvCnt.equals(cnt)) {
 					JSONObject res = new JSONObject();
 					res.put("location", values[1]);
 					res.put("temperature", values[temperature]);
