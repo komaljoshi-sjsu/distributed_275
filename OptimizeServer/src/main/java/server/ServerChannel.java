@@ -1,13 +1,11 @@
 package server;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.message.QueryProcessor;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.netty.shaded.io.netty.util.concurrent.DefaultThreadFactory;
 
 public class ServerChannel {
 	int serverNum;
@@ -20,26 +18,6 @@ public class ServerChannel {
 	
 
 	public static void main(String[] args) {
-		
-		/*for(int i=0;i<=2;i++) {
-			final int p = i;
-			int port = 8080+p;
-			ServerChannel s = new ServerChannel(p);
-			Server server = ServerBuilder.forPort(port).addService(new QueryProcessor(s,p)).build();
-			Thread thread = new Thread() {
-				public void run() {
-					try {
-						server.start();
-						System.out.println("Server "+p+" listening on port "+server.getPort());
-						server.awaitTermination();
-					} catch(InterruptedException | IOException ie) {
-						ie.printStackTrace();
-					}
-				}
-			};
-			thread.start();
-			
-		}*/
 		 try {
              startServer("user", 9090);
          } catch (IOException | InterruptedException e) {
