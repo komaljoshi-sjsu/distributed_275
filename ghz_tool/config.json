@@ -1,0 +1,18 @@
+{
+   "proto":"/Users/akashkuratkar/Documents/CMPE-275/Komal/new/distributed_275/nonblockingclient/src/main/proto/Query.proto",
+   "call":"com.message.proto.QueryProcessor.sendQuery",
+   "total":10000,
+   "concurrency":50,
+   "data":{
+      "query":"{\"elevation\":22.52266978561354,\"lon\":0.0,\"lat\":54.963741469790335}"
+   },
+   "metadata":{
+      "foo":"bar",
+      "trace_id":"{{.RequestNumber}}",
+      "timestamp":"{{.TimestampUnix}}"
+   },
+   "import-paths":[
+      "/path/to/protos"
+   ],
+   "host":"0.0.0.0:9090,"
+}
