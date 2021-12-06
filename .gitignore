@@ -1,6 +1,8 @@
+.class
+.project
 .DS_STORE
 *.gz
 *.csv
 target/
-*/.prefs
-*/.classpath
+.prefs
+.classpath
